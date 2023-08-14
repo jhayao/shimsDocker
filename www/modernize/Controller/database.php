@@ -1,8 +1,8 @@
 <?php
     class Connection{
         private $username = "root";
-        private $password = "";
-        private $host = "localhost";
+        private $password = "tiger";
+        private $host = "database";
         private $dbname = "shims";
         private $conn;
 
