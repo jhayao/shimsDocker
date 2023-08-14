@@ -1,0 +1,25 @@
+<?php
+    class Connection{
+        private $username = "root";
+        private $password = "";
+        private $host = "localhost";
+        private $dbname = "shims";
+        private $conn;
+
+        function __construct(){
+            $this->conn = new mysqli($this->host, $this->username, $this->password, $this->dbname);
+            if ($this->conn->connect_errno) {
+                echo "Failed to connect to MySQL: " . $this->conn->connect_error;
+                exit();
+            }
+        }
+
+        function connect(){
+            return $this->conn;
+        }
+    }
+?>
+   
+
+
+    
