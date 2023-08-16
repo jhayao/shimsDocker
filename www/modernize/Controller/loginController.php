@@ -70,6 +70,42 @@
             $conn->close();
             return $result;
         }
+
+        public function getUserInfo($userType,$userId){
+            if ($userType == 'admin') {
+                $db = new Connection();
+                $conn = $db->connect(); 
+                $stmt = $conn->prepare("SELECT * FROM `users` WHERE `id`=?");
+                $stmt->bind_param("s", $userId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $stmt->close();
+                $conn->close();
+                return $result;
+            }
+            else if ($userType == 'nurse') {
+                $db = new Connection();
+                $conn = $db->connect(); 
+                $stmt = $conn->prepare("SELECT * FROM `nurse` WHERE `id`=?");
+                $stmt->bind_param("s", $userId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $stmt->close();
+                $conn->close();
+                return $result;
+            }
+            else if ($userType=='student'){
+                $db = new Connection();
+                $conn = $db->connect(); 
+                $stmt = $conn->prepare("SELECT * FROM `student` WHERE `id`=?");
+                $stmt->bind_param("s", $userId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $stmt->close();
+                $conn->close();
+                return $result;
+            }
+        }
     }
 
     //listen to post with 'function' as parameter
@@ -85,10 +121,12 @@
                 $result = $login->loginUser();
                 if($result->num_rows > 0){
                     $row = $result->fetch_assoc();
-                    $_SESSION['id'] = $row['id'];
-                    $_SESSION['email'] = $row['email'];
-                    $_SESSION['user_type'] = $row['user_type'];
-                    echo json_encode(array('success'=>'true'));
+                    $account_id = $row['account_id'];
+                    $user_type = $row['user_type'];
+                    $result = $login->getUserInfo($user_type,$account_id);
+                    $row = $result->fetch_assoc();
+                    $_SESSION['userInfo'] = $row;
+                    echo json_encode(array('success'=>'true','user_type'=>$user_type,'userInfo'=>$row));
                 }else{
                     echo json_encode(array('success'=>'false'));
                 }

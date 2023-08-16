@@ -18,6 +18,7 @@
     <link rel="shortcut icon" type="image/png" href="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/favicon.ico" />
     <!-- Core Css -->
     <link  id="themeColors"  rel="stylesheet" href="../dist/css/style.min.css" />
+    <link rel="stylesheet" href="../dist/libs/sweetalert2/dist/sweetalert2.min.css">
   </head>
   <body>
     <!-- Preloader -->
@@ -108,24 +109,40 @@
     <script src="../dist/js/sidebarmenu.js"></script>
     
     <script src="../dist/js/custom.js"></script>
+    
+    <script src="../dist/libs/sweetalert2/dist/sweetalert2.min.js"></script>
     <script>
       $(document).ready(function() {
         $('#signIn').click(function(e) {
           e.preventDefault();
           var email = $('#exampleInputEmail1').val();
           var password = $('#exampleInputPassword1').val();
-          console.log(email, password)
           $.ajax({
             url: '../controller/loginController.php',
             type: 'POST',
+            dataType: 'json',
             data: {
               email: email,
               password: password,
               function: 'loginUser'
             },
             success: function(data) {
-              if (data == 1) {
-                window.location = 'login.php';
+              console.log(data)
+              if (data.success=="true") {
+
+                console.log(data)
+                if(data.user_type == "admin"){
+                  window.location.href = "../view/admin.php";
+                }
+                else if(data.user_type == "nurse"){
+                  window.location.href = "../view/nurse.php";
+                }
+                else if(data.user_type == "student"){
+                  window.location.href = "../view/student.php";
+                }
+                else{
+                  alert('Invalid Username or Password');
+                }
               } else {
                 alert('Invalid Username or Password');
               }
