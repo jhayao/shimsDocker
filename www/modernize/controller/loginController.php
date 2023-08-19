@@ -3,12 +3,12 @@
         public function __construct(){
             include_once('database.php');
             session_start();
-            error_reporting(E_ALL);
-            ini_set('display_errors', 1);
-            ini_set('error_log', 'error.log');
-            ini_set('display_errors', 1);
-            ini_set('display_startup_errors', 1);
-            error_reporting(E_ALL);
+            // error_reporting(E_ALL);
+            // ini_set('display_errors', 1);
+            // ini_set('error_log', 'error.log');
+            // ini_set('display_errors', 1);
+            // ini_set('display_startup_errors', 1);
+            // error_reporting(E_ALL);
         }
 
         //create new add function for login
